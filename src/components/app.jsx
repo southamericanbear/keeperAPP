@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import Header from "./header";
-import Footer from "./footer";
-import notes from "../note";
 import Note from "./note";
 import CreateArea from "./CreateArea";
 
@@ -23,19 +21,20 @@ const App = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <Header />
       <CreateArea onAdd={addNote} />
-      <Footer />
-      {notes.map((lanota, index) => (
-        <Note
-          key={index}
-          id={index}
-          title={lanota.title}
-          content={lanota.content}
-          onDelete={deleteNote}
-        />
-      ))}
+      <div className="notes-grid">
+        {notes.map((lanota, index) => (
+          <Note
+            key={index}
+            id={index}
+            title={lanota.title}
+            content={lanota.content}
+            onDelete={deleteNote}
+          />
+        ))}
+      </div>
     </div>
   );
 };
