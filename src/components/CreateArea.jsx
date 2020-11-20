@@ -2,35 +2,16 @@ import React, { useState } from "react";
 import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
 import Zoom from "@material-ui/core/Zoom";
-import firebase from "../firestore";
+import firebase from "../firebase";
+import { SettingsOutlined } from "@material-ui/icons";
+
+// firebase.firestore().collection("notes").add({
+//   title: "",
+//   content: "",
+// });
 
 function CreateArea(props) {
   const [isExpanded, setExpanded] = useState(false);
-
-  const [note, setNote] = useState({
-    title: "",
-    content: "",
-  });
-
-  function handleChange(event) {
-    const { name, value } = event.target;
-
-    setNote((prevNote) => {
-      return {
-        ...prevNote,
-        [name]: value,
-      };
-    });
-  }
-
-  function submitNote(event) {
-    props.onAdd(note);
-    setNote({
-      title: "",
-      content: "",
-    });
-    event.preventDefault();
-  }
 
   const expand = () => {
     setExpanded(true);
@@ -38,12 +19,12 @@ function CreateArea(props) {
 
   return (
     <div className="create-note-container">
-      <form className="create-note">
+      <form className="create-note" onSubmit={onSubmit}>
         {isExpanded && (
           <input
             name="title"
-            onChange={handleChange}
-            value={note.title}
+            onChange={(e) => setTitle(e.currentTarget.value)}
+            value={title}
             placeholder="Title"
           />
         )}
@@ -51,13 +32,13 @@ function CreateArea(props) {
         <textarea
           name="content"
           onClick={expand}
-          onChange={handleChange}
-          value={note.content}
+          onChange={(e) => setContent(e.currentTarget.value)}
+          value={content}
           placeholder="Take a note..."
           rows={isExpanded ? 3 : 1}
         />
         <Zoom in={isExpanded}>
-          <Fab onClick={submitNote}>
+          <Fab>
             <AddIcon />
           </Fab>
         </Zoom>
