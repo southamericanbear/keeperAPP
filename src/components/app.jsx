@@ -20,18 +20,9 @@ const App = () => {
       });
   }, []);
 
-  // const addNote = (newNote) => {
-  //   setNotes((prevNotes) => {
-  //     return [...prevNotes, newNote];
-  //   });
-  // };
-
   const deleteNote = (id) => {
-    setNotes((prevNotes) => {
-      return prevNotes.filter((lanota, index) => {
-        return index !== id;
-      });
-    });
+    const db = firebase.firestore();
+    db.collection("notes").doc(id).delete();
   };
 
   return (
@@ -41,8 +32,7 @@ const App = () => {
       <div className="notes-grid">
         {notes.map((lanota, index) => (
           <Note
-            key={index}
-            id={index}
+            id={lanota.id}
             title={lanota.title}
             content={lanota.content}
             onDelete={deleteNote}

@@ -3,15 +3,28 @@ import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
 import Zoom from "@material-ui/core/Zoom";
 import firebase from "../firebase";
-import { SettingsOutlined } from "@material-ui/icons";
-
-// firebase.firestore().collection("notes").add({
-//   title: "",
-//   content: "",
-// });
 
 function CreateArea(props) {
   const [isExpanded, setExpanded] = useState(false);
+
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
+  function submitNote(e) {
+    e.preventDefault();
+
+    firebase
+      .firestore()
+      .collection("notes")
+      .add({
+        title,
+        content,
+      })
+      .then(() => {
+        setTitle("");
+        setContent("");
+      });
+  }
 
   const expand = () => {
     setExpanded(true);
@@ -19,7 +32,7 @@ function CreateArea(props) {
 
   return (
     <div className="create-note-container">
-      <form className="create-note" onSubmit={onSubmit}>
+      <form className="create-note">
         {isExpanded && (
           <input
             name="title"
@@ -38,7 +51,7 @@ function CreateArea(props) {
           rows={isExpanded ? 3 : 1}
         />
         <Zoom in={isExpanded}>
-          <Fab>
+          <Fab onClick={submitNote}>
             <AddIcon />
           </Fab>
         </Zoom>
