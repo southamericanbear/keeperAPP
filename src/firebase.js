@@ -1,8 +1,9 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
+require("dotenv").config();
 
 var firebaseConfig = {
-  apiKey: "AIzaSyAKCvo3Dp7Mu1fEjtEI7mkWN1Y_ixSCa2M",
+  apiKey: process.env.DB_HOST,
   authDomain: "keeperapp-70f03.firebaseapp.com",
   databaseURL: "https://keeperapp-70f03.firebaseio.com",
   projectId: "keeperapp-70f03",
