@@ -25,6 +25,8 @@ const App = () => {
     db.collection("notes").doc(id).delete();
   };
 
+  diiiiick;
+
   return (
     <div className="container">
       <Header />
