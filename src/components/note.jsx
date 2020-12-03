@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { Draggable } from "react-beautiful-dnd";
 import firebase from "../firebase";
@@ -41,6 +41,11 @@ function Note(props) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
+  useEffect(() => {
+    setTitle(props.title);
+    setContent(props.content);
+  }, [props.title, props.content]);
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -55,7 +60,10 @@ function Note(props) {
       .firestore()
       .collection("notes")
       .doc(props.id)
-      .update({ title, content })
+      .update({
+        title,
+        content,
+      })
       .then(() => {
         setTitle("");
         setContent("");
@@ -98,14 +106,12 @@ function Note(props) {
                     name="title"
                     onChange={(e) => setTitle(e.currentTarget.value)}
                     value={title}
-                    placeholder="Edit Title"
                   />
 
                   <textarea
                     name="content"
                     onChange={(e) => setContent(e.currentTarget.value)}
                     value={content}
-                    placeholder="Edit note..."
                   />
                   <Fab onClick={submitNote}>
                     <AddCircleIcon />
