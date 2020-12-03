@@ -127,3 +127,15 @@ form.create-note button {
   cursor: pointer;
   outline: none;
 }
+
+.input-edit-note {
+  padding-bottom: 10px !important;
+  border-bottom: solid 1.5px rgba(194, 194, 194, 0.301) !important;
+  border-radius: 10px;
+}
+
+.update-note {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}

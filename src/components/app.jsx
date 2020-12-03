@@ -26,6 +26,10 @@ const App = () => {
     db.collection("notes").doc(id).delete();
   };
 
+  const updateNote = (id) => {
+    firebase.firestore().collection("notes").doc(id);
+  };
+
   function handleOnDragEnd(result) {
     if (!result.destination) return;
     const items = Array.from(notes);
@@ -43,7 +47,7 @@ const App = () => {
         <Droppable droppableId="notes-grid">
           {(provided) => (
             <div
-              className="notes-grid"
+              className="notes-grid backdrop"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
@@ -54,6 +58,7 @@ const App = () => {
                   title={lanota.title}
                   content={lanota.content}
                   onDelete={deleteNote}
+                  onUpdate={updateNote}
                 />
               ))}
               {provided.placeholder}
