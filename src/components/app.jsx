@@ -3,6 +3,7 @@ import Header from "./header";
 import Note from "./note";
 import CreateArea from "./CreateArea";
 import firebase from "../firebase";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 const App = () => {
   const [notes, setNotes] = useState([]);
@@ -25,22 +26,41 @@ const App = () => {
     db.collection("notes").doc(id).delete();
   };
 
-  diiiiick;
+  function handleOnDragEnd(result) {
+    if (!result.destination) return;
+    const items = Array.from(notes);
+    const [reorderItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderItem);
+    setNotes(items);
+  }
 
   return (
     <div className="container">
       <Header />
       <CreateArea />
-      <div className="notes-grid">
-        {notes.map((lanota, index) => (
-          <Note
-            id={lanota.id}
-            title={lanota.title}
-            content={lanota.content}
-            onDelete={deleteNote}
-          />
-        ))}
-      </div>
+
+      <DragDropContext onDragEnd={handleOnDragEnd}>
+        <Droppable droppableId="notes-grid">
+          {(provided) => (
+            <div
+              className="notes-grid"
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {notes.map((lanota, index) => (
+                <Note
+                  index={index}
+                  id={lanota.id}
+                  title={lanota.title}
+                  content={lanota.content}
+                  onDelete={deleteNote}
+                />
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
     </div>
   );
 };
